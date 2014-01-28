@@ -11,7 +11,8 @@ public class DrinkManager {
         KADEN(120, R.string.kaden, 0),
         GOGO_STRAIGHT(110, R.string.gogo_s, 0),
         GOGO_MILK(110, R.string.gogo_m, 0),
-        GOGO_LEMON(110, R.string.gogo_l, 0);
+        GOGO_LEMON(110, R.string.gogo_l, 0),
+        OCHA(100, R.string.ocha, 0);
 
         private int price;
 

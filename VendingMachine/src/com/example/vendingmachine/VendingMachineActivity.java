@@ -1,7 +1,10 @@
 
 package com.example.vendingmachine;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -9,7 +12,11 @@ import com.example.vendingmachine.DrinkManager.DRINK;
 
 public class VendingMachineActivity extends Activity {
 
-    private int total;
+    // 投入合計金額
+    private int mInsertTotal;
+
+    // 売上合計金額
+    private int mSaleTotal;
 
     private DrinkManager mDrinkManager;
 
@@ -33,16 +40,17 @@ public class VendingMachineActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        total = 0;
-        mDrinkManager = new DrinkManager(this);
-        initDrink(mDrinkManager);
+        init(this);
     }
 
     // TODO public にしたくないけど、そうしないとテストできない
-    public void initDrink(DrinkManager manager) {
+    public void init(Context context) {
+        mInsertTotal = 0;
+        mSaleTotal = 0;
+        mDrinkManager = new DrinkManager(context);
         // 初期状態で紅茶花伝を5本格納している
         for (int i = 0; i < 5; i++) {
-            manager.store(DRINK.KADEN);
+            mDrinkManager.store(DRINK.KADEN);
         }
     }
 
@@ -53,8 +61,16 @@ public class VendingMachineActivity extends Activity {
         return true;
     }
 
-    public int getTotal() {
-        return total;
+    public int getInsertTotal() {
+        return mInsertTotal;
+    }
+
+    public int getSaleTotal() {
+        return mSaleTotal;
+    }
+
+    public DrinkManager getDrinkManager() {
+        return mDrinkManager;
     }
 
     /* 1円玉、5円玉、千円札以外のお札は扱えない */
@@ -62,7 +78,27 @@ public class VendingMachineActivity extends Activity {
         if (MONEY.MONEY_10YEN.equals(money) || MONEY.MONEY_50YEN.equals(money)
                 || MONEY.MONEY_100YEN.equals(money) || MONEY.MONEY_500YEN.equals(money)
                 || MONEY.MONEY_1000YEN.equals(money)) {
-            total += money.getValue();
+            mInsertTotal += money.getValue();
         }
+    }
+
+    public int refund() {
+        int change = mInsertTotal;
+        mInsertTotal = 0;
+        return change;
+    }
+
+    public DRINK purchase() {
+        ArrayList<DRINK> drinkList = mDrinkManager.getDrinkList();
+        if (drinkList.size() > 0) {
+            DRINK drink = drinkList.get(0);
+            if (mDrinkManager.getPrice(drink) <= mInsertTotal) {
+                mDrinkManager.getDrinkList().remove(0);
+                mInsertTotal -= mDrinkManager.getPrice(drink);
+                mSaleTotal += mDrinkManager.getPrice(drink);
+                return drink;
+            }
+        }
+        return null;
     }
 }
