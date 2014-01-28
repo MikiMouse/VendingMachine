@@ -4,8 +4,8 @@ package com.example.vendingmachine.test;
 import android.test.AndroidTestCase;
 
 import com.example.vendingmachine.DrinkManager;
-import com.example.vendingmachine.VendingMachineActivity;
 import com.example.vendingmachine.DrinkManager.DRINK;
+import com.example.vendingmachine.VendingMachineActivity;
 import com.example.vendingmachine.VendingMachineActivity.MONEY;
 
 public class VendingMachineActivityTest extends AndroidTestCase {
@@ -97,5 +97,10 @@ public class VendingMachineActivityTest extends AndroidTestCase {
         assertEquals(0, vma.getInsertTotal());
         assertEquals(240, vma.getSaleTotal());
         assertEquals(3, manager.getDrinkList().size());
+    }
+
+    public void test_五百円を投入して５００円が合計金額になること() throws Exception {
+        vma.insert(MONEY.MONEY_500YEN);
+        assertEquals(500, vma.getInsertTotal());
     }
 }
