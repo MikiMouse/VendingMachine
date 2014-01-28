@@ -5,9 +5,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.example.vendingmachine.DrinkManager.DRINK;
+
 public class VendingMachineActivity extends Activity {
 
     private int total;
+
+    private DrinkManager mDrinkManager;
 
     public enum MONEY {
         MONEY_1YEN(1), MONEY_5YEN(5), MONEY_10YEN(10), MONEY_50YEN(50), MONEY_100YEN(100),
@@ -30,6 +34,16 @@ public class VendingMachineActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         total = 0;
+        mDrinkManager = new DrinkManager(this);
+        initDrink(mDrinkManager);
+    }
+
+    // TODO public にしたくないけど、そうしないとテストできない
+    public void initDrink(DrinkManager manager) {
+        // 初期状態で紅茶花伝を5本格納している
+        for (int i = 0; i < 5; i++) {
+            manager.store(DRINK.KADEN);
+        }
     }
 
     @Override

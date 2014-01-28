@@ -3,6 +3,7 @@ package com.example.vendingmachine.test;
 
 import android.test.AndroidTestCase;
 
+import com.example.vendingmachine.DrinkManager;
 import com.example.vendingmachine.VendingMachineActivity;
 import com.example.vendingmachine.VendingMachineActivity.MONEY;
 
@@ -35,5 +36,14 @@ public class VendingMachineActivityTest extends AndroidTestCase {
         vma.insert(MONEY.MONEY_5YEN);
         vma.insert(MONEY.MONEY_10YEN);
         assertEquals(10, vma.getTotal());
+    }
+
+    public void test_初期状態で120円の紅茶花伝が5本格納されていること() throws Exception {
+        DrinkManager manager = new DrinkManager(getContext());
+        vma.initDrink(manager);
+
+        assertEquals(120, manager.getPrice(manager.getDrinkList().get(0)));
+        assertEquals("紅茶花伝", manager.getName(manager.getDrinkList().get(0)));
+        assertEquals(5, manager.getStock(manager.getDrinkList().get(0)));
     }
 }

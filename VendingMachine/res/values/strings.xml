@@ -5,4 +5,9 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="kaden">紅茶花伝</string>
+    <string name="gogo_s">午後の紅茶ストレート</string>
+    <string name="gogo_m">午後の紅茶ミルク</string>
+    <string name="gogo_l">午後の紅茶レモン</string>
+
 </resources>
