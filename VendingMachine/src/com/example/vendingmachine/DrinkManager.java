@@ -8,11 +8,11 @@ import android.content.Context;
 public class DrinkManager {
 
     public enum DRINK {
-        KADEN(120, R.string.kaden, 0),
-        GOGO_STRAIGHT(110, R.string.gogo_s, 0),
-        GOGO_MILK(110, R.string.gogo_m, 0),
-        GOGO_LEMON(110, R.string.gogo_l, 0),
-        OCHA(100, R.string.ocha, 0);
+        KADEN(120, R.string.kaden, R.drawable.kouchakaden),
+        GOGO_STRAIGHT(110, R.string.gogo_s, R.drawable.gogo_straight),
+        GOGO_MILK(110, R.string.gogo_m, R.drawable.gogo_milk),
+        GOGO_LEMON(110, R.string.gogo_l, R.drawable.gogo_lemon),
+        OCHA(100, R.string.ocha, R.drawable.ocha);
 
         private int price;
 
@@ -35,7 +35,6 @@ public class DrinkManager {
         }
 
         private int getThumbnailId() {
-
             return thumbnailId;
         }
     }
@@ -64,6 +63,10 @@ public class DrinkManager {
 
     public String getName(DRINK drink) {
         return mContext.getString(drink.getNameId());
+    }
+
+    public int getThumbnailId(DRINK drink) {
+        return drink.getThumbnailId();
     }
 
     public ArrayList<DRINK> getDrinkList(int position) {

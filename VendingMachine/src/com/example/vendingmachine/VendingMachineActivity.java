@@ -7,10 +7,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.vendingmachine.DrinkManager.DRINK;
 
 public class VendingMachineActivity extends Activity {
+
+    /* View */
+    private ImageView[] mDrinkView;
+
+    private ImageView mGrass;
+
+    // モード
+    private boolean mIsUserMode = true;
 
     // 投入合計金額
     private int mInsertTotal;
@@ -39,7 +50,14 @@ public class VendingMachineActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.vending_machine);
+
+        mDrinkView = new ImageView[DrinkManager.DRINK_LIST_COUNT]; // 3
+        mDrinkView[0] = (ImageView) findViewById(R.id.drink_list_0);
+        mDrinkView[1] = (ImageView) findViewById(R.id.drink_list_1);
+        mDrinkView[2] = (ImageView) findViewById(R.id.drink_list_2);
+        mGrass = (ImageView) findViewById(R.id.grass);
+
         init(this);
     }
 
@@ -50,7 +68,7 @@ public class VendingMachineActivity extends Activity {
         mDrinkManager = new DrinkManager(context);
         // 初期状態で紅茶花伝を5本格納している
         for (int i = 0; i < 5; i++) {
-            mDrinkManager.store(DRINK.KADEN, 0);
+            store(DRINK.KADEN, 0);
         }
     }
 
@@ -59,6 +77,19 @@ public class VendingMachineActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_switch:
+            switchMode();
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public int getInsertTotal() {
@@ -100,5 +131,20 @@ public class VendingMachineActivity extends Activity {
             }
         }
         return null;
+    }
+
+    public void store(DRINK drink, int position) {
+        if (mDrinkManager.getDrinkList(position).size() == 0) {
+            mDrinkView[position].setImageResource(mDrinkManager.getThumbnailId(drink));
+        }
+        mDrinkManager.store(drink, position);
+    }
+
+    private void switchMode() {
+        mIsUserMode = !mIsUserMode;
+        mGrass.setVisibility(mIsUserMode ? View.VISIBLE : View.INVISIBLE);
+        for (int i = 0; i < mDrinkView.length; i++) {
+            mDrinkView[i].setEnabled(!mIsUserMode);
+        }
     }
 }
