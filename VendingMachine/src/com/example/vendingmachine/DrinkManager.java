@@ -40,17 +40,22 @@ public class DrinkManager {
         }
     }
 
+    public static final int DRINK_LIST_COUNT = 3;
+
     private Context mContext;
 
-    private ArrayList<DRINK> mDrinkList;
+    private ArrayList<DRINK>[] mDrinkLists;
 
     public DrinkManager(Context context) {
         mContext = context;
-        mDrinkList = new ArrayList<DrinkManager.DRINK>();
+        mDrinkLists = new ArrayList[DRINK_LIST_COUNT];
+        for (int i = 0; i < DRINK_LIST_COUNT; i++) {
+            mDrinkLists[i] = new ArrayList<DrinkManager.DRINK>();
+        }
     }
 
-    public void store(DRINK drink) {
-        mDrinkList.add(drink);
+    public void store(DRINK drink, int position) {
+        mDrinkLists[position].add(drink);
     }
 
     public int getPrice(DRINK drink) {
@@ -61,11 +66,17 @@ public class DrinkManager {
         return mContext.getString(drink.getNameId());
     }
 
-    public ArrayList<DRINK> getDrinkList() {
-        return mDrinkList;
+    public ArrayList<DRINK> getDrinkList(int position) {
+        if (position > DRINK_LIST_COUNT) {
+            return null;
+        }
+        return mDrinkLists[position];
     }
 
-    public Object getStock(DRINK drink) {
-        return mDrinkList.size();
+    public int getStock(int position) {
+        if (position > DRINK_LIST_COUNT) {
+            return 0;
+        }
+        return mDrinkLists[position].size();
     }
 }

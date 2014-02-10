@@ -50,7 +50,7 @@ public class VendingMachineActivity extends Activity {
         mDrinkManager = new DrinkManager(context);
         // 初期状態で紅茶花伝を5本格納している
         for (int i = 0; i < 5; i++) {
-            mDrinkManager.store(DRINK.KADEN);
+            mDrinkManager.store(DRINK.KADEN, 0);
         }
     }
 
@@ -88,12 +88,12 @@ public class VendingMachineActivity extends Activity {
         return change;
     }
 
-    public DRINK purchase() {
-        ArrayList<DRINK> drinkList = mDrinkManager.getDrinkList();
+    public DRINK purchase(int position) {
+        ArrayList<DRINK> drinkList = mDrinkManager.getDrinkList(position);
         if (drinkList.size() > 0) {
             DRINK drink = drinkList.get(0);
             if (mDrinkManager.getPrice(drink) <= mInsertTotal) {
-                mDrinkManager.getDrinkList().remove(0);
+                mDrinkManager.getDrinkList(position).remove(0);
                 mInsertTotal -= mDrinkManager.getPrice(drink);
                 mSaleTotal += mDrinkManager.getPrice(drink);
                 return drink;
