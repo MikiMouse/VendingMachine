@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.vendingmachine.DrinkManager.DRINK;
@@ -17,6 +18,8 @@ public class VendingMachineActivity extends Activity {
 
     /* View */
     private ImageView[] mDrinkView;
+
+    private Button[] mDrinkButton;
 
     private ImageView mGrass;
 
@@ -56,6 +59,10 @@ public class VendingMachineActivity extends Activity {
         mDrinkView[0] = (ImageView) findViewById(R.id.drink_list_0);
         mDrinkView[1] = (ImageView) findViewById(R.id.drink_list_1);
         mDrinkView[2] = (ImageView) findViewById(R.id.drink_list_2);
+        mDrinkButton = new Button[DrinkManager.DRINK_LIST_COUNT]; // 3
+        mDrinkButton[0] = (Button) findViewById(R.id.drink_button_0);
+        mDrinkButton[1] = (Button) findViewById(R.id.drink_button_1);
+        mDrinkButton[2] = (Button) findViewById(R.id.drink_button_2);
         mGrass = (ImageView) findViewById(R.id.grass);
 
         init(this);
